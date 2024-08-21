@@ -1,0 +1,47 @@
+# Node.js
+# Build a general Node.js project with npm and Cypress
+# Add steps to install dependencies, run tests, generate reports, and send notifications.
+
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+  displayName: 'npm install dependencies'
+
+- script: |
+    npm run limpiar-reporte
+    npm run ejecutar-pruebas
+    npm run generar-reporte
+  displayName: 'Run Cypress Tests'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: '**/junit*.xml'
+    failTaskOnFailedTests: true
+  displayName: 'Publish Test Results'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: 'allure-report'
+    artifact: 'allure-report'
+  displayName: 'Publish Allure Report'
+
+- task: Email@1
+  inputs:
+    To: 'edwin_554_@hotmail.com'
+    Subject: 'Resultado del Pipeline de Cypress'
+    Body: |
+      El pipeline ha finalizado con el siguiente resultado:
+      $(Build.Status)
+  displayName: 'Send Email Notification'
+
