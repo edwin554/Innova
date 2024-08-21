@@ -36,12 +36,16 @@ steps:
     artifact: 'allure-report'
   displayName: 'Publish Allure Report'
 
-- task: Email@1
+- task: PowerShell@2
   inputs:
-    To: 'edwin_554_@hotmail.com'
-    Subject: 'Resultado del Pipeline de Cypress'
-    Body: |
-      El pipeline ha finalizado con el siguiente resultado:
-      $(Build.Status)
-  displayName: 'Send Email Notification'
-
+    targetType: 'inline'
+    script: |
+      $EmailFrom = "edwin_554_@hotmail.com"
+      $EmailTo = "edinzk1900@gmail.com"
+      $Subject = "Resultado del Pipeline de Cypress - $(Build.BuildNumber)"
+      $Body = "El pipeline ha finalizado con el siguiente resultado: $(Build.Status)"
+      $SMTPServer = "smtp.office365.com"
+      $SMTPClient = New-Object Net.Mail.SmtpClient($SMTPServer, 587) 
+      $SMTPClient.EnableSsl = $true
+      $SMTPClient.Credentials = New-Object System.Net.NetworkCredential("edwin_554_@hotmail.com", "Capsula.259*"); 
+      $SM
