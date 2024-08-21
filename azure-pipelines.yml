@@ -19,9 +19,7 @@ steps:
   displayName: 'npm install dependencies'
 
 - script: |
-    npm run limpiar-reporte
-    npm run ejecutar-pruebas
-    npm run generar-reporte
+    npm run correr-test
   displayName: 'Run Cypress Tests'
 
 - task: PublishTestResults@2
