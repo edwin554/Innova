@@ -47,5 +47,6 @@ steps:
       $SMTPServer = "smtp.office365.com"
       $SMTPClient = New-Object Net.Mail.SmtpClient($SMTPServer, 587) 
       $SMTPClient.EnableSsl = $true
-      $SMTPClient.Credentials = New-Object System.Net.NetworkCredential("edwin_554_@hotmail.com", "Capsula.259*"); 
-      $SM
+      $SMTPClient.Credentials = New-Object System.Net.NetworkCredential("edwin_554_@hotmail.com", "Capsula.259*") 
+      $SMTPClient.Send($EmailFrom, $EmailTo, $Subject, $Body)
+  displayName: 'Send Email Notification'
